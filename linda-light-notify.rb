@@ -4,8 +4,8 @@ require 'rubygems'
 require 'sinatra/rocketio/linda/client'
 $stdout.sync = true
 
-url =   ENV["LINDA_BASE"]  || ARGV.shift || "http://localhost:5000"
-spaces = (ENV["LINDA_SPACES"] || "test").split(/,/)
+url =   ENV["LINDA_BASE"] || ARGV.shift || "http://localhost:5000"
+spaces = (ENV["LINDA_SPACES"]||ENV["LINDA_SPACE"]||"test").split(/,/)
 puts "connecting.. #{url}"
 linda = Sinatra::RocketIO::Linda::Client.new url
 
@@ -13,6 +13,7 @@ tss = {}
 spaces.each do |i|
   tss[i] = linda.tuplespace[i]
 end
+puts "spaces : #{tss.keys}"
 
 lasts = {}
 
