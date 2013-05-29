@@ -21,12 +21,11 @@ linda.io.on :connect do  ## RocketIO's "connect" event
   puts "connect!! <#{linda.io.session}> (#{linda.io.type})"
   tss.each do |name, ts|
     ts.watch ["sensor", "light"] do |tuple|
-      next unless tuple.size == 3 and tuple[2] =~ /^[\d\.]+$/
+      next unless tuple.size == 3 and (tuple[2].to_s =~ /^[\d\.]+$/)
       puts "#{name} - #{tuple}"
       light = tuple[2].to_i
       if lasts[name]
         light_d = light - lasts[name]
-        puts light_d
         msg = nil
         if light_d > 20
           msg = "#{name}で電気が点きました"
