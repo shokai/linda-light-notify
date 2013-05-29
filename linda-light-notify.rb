@@ -35,7 +35,7 @@ linda.io.on :connect do  ## RocketIO's "connect" event
         if msg
           puts msg
           tss.values.each do |ts_|
-            ts_.write ["skype", "send", msg]
+            ts_.write ["skype", "send", "#{msg} - #{tuple}"]
           end
           tss.each do |name_, ts_|
             next if name_ == name
