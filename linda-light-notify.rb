@@ -15,7 +15,7 @@ spaces.each do |i|
 end
 puts "spaces : #{tss.keys}"
 
-lasts = {}
+lasts = Hash.new{|h,k| h[k] = Hash.new }
 
 linda.io.on :connect do  ## RocketIO's "connect" event
   puts "connect!! <#{linda.io.session}> (#{linda.io.type})"
@@ -24,26 +24,35 @@ linda.io.on :connect do  ## RocketIO's "connect" event
       next unless tuple.size == 3 and (tuple[2].to_s =~ /^[\d\.]+$/)
       puts "#{name} - #{tuple}"
       light = tuple[2].to_i
-      if lasts[name]
-        light_d = light - lasts[name]
+      if lasts[name] and lasts[name][:value]
+        light_d = light - lasts[name][:value]
         msg = nil
+        stat = nil
         if light_d > 20
           msg = "#{name}で電気が点きました"
+          stat = "on"
         elsif light_d < -20
           msg = "#{name}で電気が消えました"
+          stat = "off"
         end
         if msg
           puts msg
-          tss.values.each do |ts_|
-            ts_.write ["skype", "send", "#{msg} - #{tuple}"]
+          if !lasts[name][:notify] or
+              lasts[name][:notify] < (Time.now-5) or
+              (lasts[name][:stat] and lasts[name][:stat] != stat)
+            tss.values.each do |ts_|
+              ts_.write ["skype", "send", "#{msg} - #{tuple}"]
+            end
+            tss.each do |name_, ts_|
+              next if name_ == name
+              ts_.write ["say", msg]
+            end
           end
-          tss.each do |name_, ts_|
-            next if name_ == name
-            ts_.write ["say", msg]
-          end
+          lasts[name][:stat] = stat
+          lasts[name][:notify] = Time.now
         end
       end
-      lasts[name] = light
+      lasts[name][:value] = light
     end
   end
 end
