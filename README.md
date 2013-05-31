@@ -2,15 +2,19 @@ Linda Light Notify
 ==================
 notify Light sensor value from Arduino to skype and say-command with RocketIO::Linda
 
-* https://github.com/shokai/linda-light-notify
-* watch Tuples ["sensor", "light", Number]
-* write Tuples ["say", "#{name}で電気が点きました"] and ["skype", "send", "#{name}で電気が点きました"].
+- https://github.com/shokai/linda-light-notify
+- watch Tuples ["sensor", "light", Number]
+- write Tuples
+  - ["say", "#{name}で電気が点きました"]
+  - ["skype", "send", "#{name}で電気が点きました"]
+  - ["twitter", "tweet", "#{name}で電気が点きました"]
 
 Dependencies
 ------------
 - Ruby 1.8.7 ~ 2.0.0
 - [linda-mac-say](https://github.com/shokai/linda-mac-say)
 - [linda-skype](https://github.com/shokai/linda-skype)
+- [linda-twitter](https://github.com/shokai/linda-twitter)
 - [LindaBase](https://github.com/shokai/linda-base)
 
 
