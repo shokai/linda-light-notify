@@ -13,6 +13,7 @@ notify Light sensor value from Arduino to skype and say-command with RocketIO::L
 Dependencies
 ------------
 - Ruby 1.8.7 ~ 2.0.0
+- [linda-arduino-sensor](https://github.com/shokai/linda-arduino-sensor)
 - [linda-mac-say](https://github.com/shokai/linda-mac-say)
 - [linda-skype](https://github.com/shokai/linda-skype)
 - [linda-twitter](https://github.com/shokai/linda-twitter)
