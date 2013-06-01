@@ -3,8 +3,9 @@ Linda Light Notify
 notify Light sensor value from Arduino to skype and say-command with RocketIO::Linda
 
 - https://github.com/shokai/linda-light-notify
-- watch Tuples ["sensor", "light", Number]
+- watch Tuples ["sensor", "light", Number] and detect status.
 - write Tuples
+  - ["sensor", "light", "on"] or ["sensor", "light", "off"]
   - ["say", "#{name}で電気が点きました"]
   - ["skype", "send", "#{name}で電気が点きました"]
   - ["twitter", "tweet", "#{name}で電気が点きました"]
