@@ -42,8 +42,8 @@ linda.io.on :connect do  ## RocketIO's "connect" event
         if lasts[name][:stat] != stat or
             lasts[name][:notify_at]+5 < Time.now
           tss.each do |name_, ts_|
-            ts_.write ["skype", "send", "#{msg} - #{tuple}"]
-            ts_.write ["twitter", "tweet", "#{msg} - #{tuple}"]
+            ts_.write ["skype", "send", "#{msg} (#{lasts[name][:value]}->#{tuple[2]})"]
+            ts_.write ["twitter", "tweet", "#{msg} (#{lasts[name][:value]}->#{tuple[2]})"]
             ts_.write ["say", msg] if name_ != name
             ts_.write ["sensor", "light", stat] if name_ == name
           end
