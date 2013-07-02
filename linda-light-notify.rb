@@ -4,8 +4,10 @@ require 'rubygems'
 require 'sinatra/rocketio/linda/client'
 $stdout.sync = true
 
-url = ENV["LINDA_BASE"] || ARGV.shift || "http://localhost:5000"
+url =     ENV["LINDA_BASE"] || ARGV.shift || "http://localhost:5000"
 spaces = (ENV["LINDA_SPACES"]||ENV["LINDA_SPACE"]||"test").split(/,/)
+threshold = (ENV["LIGHT_THRESHOLD"] || 30).to_i
+puts "light threshold : #{threshold}"
 puts "connecting.. #{url}"
 linda = Sinatra::RocketIO::Linda::Client.new url
 
@@ -30,17 +32,17 @@ linda.io.on :connect do  ## RocketIO's "connect" event
       end
       msg = nil
       stat = nil
-      if 20 < light-lasts[name][:value]
+      if threshold < light-lasts[name][:value]
         msg = "#{name}で電気が点きました"
         stat = :on
-      elsif light - lasts[name][:value] < -20
+      elsif lasts[name][:value] - light < threshold
         msg = "#{name}で電気が消えました"
         stat = :off
       end
       if [:on, :off].include? stat
-        puts msg
         if lasts[name][:stat] != stat or
             lasts[name][:notify_at]+5 < Time.now
+          puts msg
           tss.each do |name_, ts_|
             ts_.write ["skype", "send", "#{msg} (#{lasts[name][:value]}->#{tuple[2]})"]
             ts_.write ["twitter", "tweet", "#{msg} (#{lasts[name][:value]}->#{tuple[2]})"]

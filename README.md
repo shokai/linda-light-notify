@@ -30,15 +30,16 @@ Install Dependencies
 Run
 ---
 
-set ENV var "LINDA_BASE", "LINDA_SPACES"
+set ENV var "LINDA_BASE", "LINDA_SPACES" "LIGHT_THRESHOLD"
 
     % export LINDA_BASE=http://linda.example.com
     % export LINDA_SPACES="shokai_room,my_room,my_room2"  ## separate with comma
+    % export LIGHT_THRESHOLD=30
     % bundle exec ruby linda-light-notify.rb
 
 or
 
-    % LINDA_BASE=http://linda.example.com LINDA_SPACES="shokai_room,my_room,my_room2" bundle exec ruby linda-light-notify.rb
+    % LINDA_BASE=http://linda.example.com LINDA_SPACES="shokai_room,my_room,my_room2" LIGHT_THRESHOLD=30 bundle exec ruby linda-light-notify.rb
 
 
 Install as Service
