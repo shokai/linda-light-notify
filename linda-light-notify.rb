@@ -35,7 +35,7 @@ linda.io.on :connect do  ## RocketIO's "connect" event
       if threshold < light-lasts[name][:value]
         msg = "#{name}で電気が点きました"
         stat = :on
-      elsif lasts[name][:value] - light < threshold
+      elsif lasts[name][:value]-light > threshold
         msg = "#{name}で電気が消えました"
         stat = :off
       end
